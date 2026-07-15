@@ -1,5 +1,6 @@
 import React from 'react';
 import { useData } from '../context/DataContext';
+import rienImg from '../assets/rien.svg';
 
 /**
  * Composant Historique.
@@ -16,9 +17,12 @@ export default function History() {
         
         {/* Affichage d'un message si l'historique est vide */}
         {recharges.length === 0 ? (
-          <p style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: '2rem 0' }}>
-            Aucune recharge enregistrée pour le moment.
-          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2rem 0' }}>
+            <img src={rienImg} alt="Aucune donnée" style={{ width: '200px', maxWidth: '100%', marginBottom: '1.5rem', opacity: 0.8 }} />
+            <p style={{ color: 'var(--color-text-muted)', textAlign: 'center' }}>
+              Aucune recharge enregistrée pour le moment.
+            </p>
+          </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>

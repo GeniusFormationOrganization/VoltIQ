@@ -2,6 +2,7 @@ import React from 'react';
 import { useData } from '../context/DataContext';
 import { Link } from 'react-router-dom';
 import { PlusCircle, X } from 'lucide-react';
+import rienImg from '../assets/rien.svg';
 
 /**
  * Composant Tableau de bord (Accueil).
@@ -110,21 +111,30 @@ export default function Dashboard() {
       {/* Carte affichant la durée de vie restante (Barre de batterie) */}
       <div className="card">
         <h2 style={{ fontSize: '1rem', marginBottom: '1rem', fontWeight: 'bold' }}>Autonomie estimée</h2>
-        <div style={{ display: 'flex', gap: '4px', height: '24px', marginBottom: '0.5rem' }}>
-          {Array.from({ length: 7 }).map((_, i) => (
-            <div
-              key={i}
-              style={{
-                flex: 1,
-                backgroundColor: i < litSegments ? progressColors[i] : '#E5E7EB',
-                borderRadius: '4px'
-              }}
-            ></div>
-          ))}
-        </div>
-        <div style={{ textAlign: 'right', color: 'var(--color-primary)', fontWeight: 'bold', fontSize: '0.875rem' }}>
-          {daysRemaining > 0 ? `${daysRemaining} jours` : 'Épuisé'}
-        </div>
+        {currentRecharge ? (
+          <>
+            <div style={{ display: 'flex', gap: '4px', height: '24px', marginBottom: '0.5rem' }}>
+              {Array.from({ length: 7 }).map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    flex: 1,
+                    backgroundColor: i < litSegments ? progressColors[i] : '#E5E7EB',
+                    borderRadius: '4px'
+                  }}
+                ></div>
+              ))}
+            </div>
+            <div style={{ textAlign: 'right', color: 'var(--color-primary)', fontWeight: 'bold', fontSize: '0.875rem' }}>
+              {daysRemaining > 0 ? `${daysRemaining} jours` : 'Épuisé'}
+            </div>
+          </>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem 0' }}>
+            <img src={rienImg} alt="Aucune donnée" style={{ width: '150px', maxWidth: '100%', marginBottom: '1rem', opacity: 0.8 }} />
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem', textAlign: 'center' }}>Aucune donnée. Ajoutez une recharge pour commencer.</p>
+          </div>
+        )}
       </div>
 
 

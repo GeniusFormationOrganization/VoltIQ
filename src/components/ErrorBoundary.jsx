@@ -1,4 +1,5 @@
 import React from 'react';
+import errorImg from '../assets/404 Not Found.svg';
 
 /**
  * Composant de type "Frontière d'erreur" (Error Boundary).
@@ -27,6 +28,9 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="app-container" style={{ alignItems: 'center', justifyContent: 'center' }}>
           <div className="card" style={{ maxWidth: '400px', textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+              <img src={errorImg} alt="Erreur" style={{ width: '200px', maxWidth: '100%' }} />
+            </div>
             <h2 style={{ color: 'var(--color-error)' }}>Oups, une erreur est survenue</h2>
             <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.5rem' }}>
               Nous sommes désolés, mais quelque chose s'est mal passé.
