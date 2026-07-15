@@ -62,6 +62,9 @@ export function DataProvider({ children }) {
     localStorage.setItem('voltiq_recharges', JSON.stringify(recharges));
   }, [recharges]);
 
+  // Récupérer la recharge la plus récente
+  const currentRecharge = recharges.length > 0 ? recharges[0] : null;
+
   // Sauvegarder les paramètres
   useEffect(() => {
     localStorage.setItem('voltiq_settings', JSON.stringify(settings));
@@ -178,9 +181,6 @@ export function DataProvider({ children }) {
     setHasCompletedOnboarding(true);
     localStorage.setItem('voltiq_onboarding_completed', 'true');
   };
-
-  // Récupérer la recharge la plus récente
-  const currentRecharge = recharges.length > 0 ? recharges[0] : null;
 
   return (
     <DataContext.Provider value={{ 
