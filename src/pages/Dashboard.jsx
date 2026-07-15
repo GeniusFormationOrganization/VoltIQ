@@ -1,7 +1,7 @@
 import React from 'react';
 import { useData } from '../context/DataContext';
 import { Link } from 'react-router-dom';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, X } from 'lucide-react';
 
 /**
  * Composant Tableau de bord (Accueil).
@@ -10,6 +10,27 @@ import { PlusCircle } from 'lucide-react';
  */
 export default function Dashboard() {
   const { recharges, currentRecharge } = useData();
+  const [isAlertDismissed, setIsAlertDismissed] = React.useState(false);
+
+  // --- Gestion du swipe pour fermer l'alerte ---
+  const [touchStart, setTouchStart] = React.useState(null);
+  const [touchEnd, setTouchEnd] = React.useState(null);
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    // Si on a balayé de plus de 50px (gauche ou droite), on ferme
+    if (Math.abs(distance) > 50) {
+      setIsAlertDismissed(true);
+    }
+  };
 
   // --- Calcul des jours restants et de la barre de progression ---
   let daysRemaining = 0;
@@ -54,13 +75,44 @@ export default function Dashboard() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', paddingBottom: '2rem' }}>
 
       {/* Bannière d'alerte rouge si le crédit est presque épuisé */}
-      {isAlert && (
-        <div className="card" style={{ backgroundColor: 'var(--color-warning)', color: 'white', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      {isAlert && !isAlertDismissed && (
+        <div 
+          className="card" 
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+          style={{ 
+            backgroundColor: 'var(--color-warning)', 
+            color: 'white', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '1rem',
+            position: 'relative',
+            overflow: 'hidden',
+            transition: 'opacity 0.3s ease'
+          }}
+        >
           <div>⚠️</div>
-          <div>
+          <div style={{ flex: 1, paddingRight: '20px' }}>
             <strong>Alerte : </strong>
             Votre crédit arrive à épuisement dans {daysRemaining} jours. Pensez à recharger !
           </div>
+          <button 
+            onClick={() => setIsAlertDismissed(true)}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: 'white', 
+              cursor: 'pointer',
+              position: 'absolute',
+              right: '1rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              padding: '0.5rem'
+            }}
+          >
+            <X size={20} />
+          </button>
         </div>
       )}
 
