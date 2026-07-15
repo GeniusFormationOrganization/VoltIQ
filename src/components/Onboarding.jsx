@@ -36,7 +36,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', backgroundColor: 'var(--color-bg-main)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100dvh', overflow: 'hidden', backgroundColor: 'var(--color-bg-main)' }}>
       
       {/* Header / Logo */}
       <div style={{ padding: '2rem 1rem 1rem 1rem', width: '100%', textAlign: 'center' }}>
@@ -44,13 +44,13 @@ export default function Onboarding() {
       </div>
       
       {/* Scrollable / Flexible Content Area */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', maxWidth: '400px', padding: '1rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
-          <img src={steps[step].img} alt={steps[step].title} style={{ maxWidth: '100%', height: '250px', objectFit: 'contain' }} />
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%', maxWidth: '400px', padding: '1rem', minHeight: 0 }}>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', marginBottom: '1.5rem', minHeight: 0 }}>
+          <img src={steps[step].img} alt={steps[step].title} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
         </div>
-        <div style={{ minHeight: '150px' }}>
-          <h2 style={{ fontSize: '1.75rem', marginBottom: '1rem', fontWeight: '900', textAlign: 'center' }}>{steps[step].title}</h2>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '1.1rem', lineHeight: '1.5', textAlign: 'center' }}>
+        <div>
+          <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontWeight: '900', textAlign: 'center' }}>{steps[step].title}</h2>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '1rem', lineHeight: '1.5', textAlign: 'center' }}>
             {steps[step].desc}
           </p>
         </div>
