@@ -1,0 +1,21 @@
+{
+  "name": "VoltIQ",
+  "short_name": "VoltIQ",
+  "description": "Maîtrisez votre énergie jour après jour.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10B981",
+  "icons": [
+    {
+      "src": "/faveicone.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/faveicone.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
