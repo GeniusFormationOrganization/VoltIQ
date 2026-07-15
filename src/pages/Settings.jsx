@@ -7,23 +7,7 @@ import { Trash2 } from 'lucide-react';
  * Permet de configurer les préférences de notification et de réinitialiser l'application.
  */
 export default function Settings() {
-  const { clearRecharges } = useData();
-  
-  // État pour les jours de rappels (Pour l'instant, c'est purement visuel/UI)
-  const [reminders, setReminders] = useState({
-    r7: false,
-    r5: true,
-    r3: true,
-    r1: true
-  });
-  
-  // État pour les canaux de notification choisis (Également visuel pour le moment)
-  const [channels, setChannels] = useState({
-    push: true,
-    email: true,
-    sms: false,
-    whatsapp: false
-  });
+  const { clearRecharges, settings, setSettings } = useData();
 
   return (
     <div style={{ maxWidth: '800px', paddingBottom: '2rem' }}>
@@ -46,8 +30,14 @@ export default function Settings() {
               <input 
                 type="checkbox" 
                 className="custom-checkbox"
-                checked={reminders[setting.id]} 
-                onChange={(e) => setReminders({...reminders, [setting.id]: e.target.checked})}
+                checked={settings.reminders[setting.id]} 
+                onChange={(e) => setSettings({
+                  ...settings,
+                  reminders: {
+                    ...settings.reminders,
+                    [setting.id]: e.target.checked
+                  }
+                })}
                 style={{ marginRight: '0.75rem' }}
               />
               <span style={{ fontWeight: 'bold' }}>{setting.label}</span>
@@ -68,44 +58,65 @@ export default function Settings() {
             <input 
               type="checkbox" 
               className="custom-checkbox"
-              checked={channels.push} 
-              onChange={(e) => setChannels({...channels, push: e.target.checked})}
+              checked={settings.channels.push} 
+              onChange={async (e) => {
+                const checked = e.target.checked;
+                if (checked) {
+                  if (!("Notification" in window)) {
+                    alert("Ce navigateur ne supporte pas les notifications de bureau.");
+                    return;
+                  }
+                  const permission = await Notification.requestPermission();
+                  if (permission === "granted") {
+                    setSettings({ ...settings, channels: { ...settings.channels, push: true } });
+                    new Notification("VoltIQ", { body: "Les notifications sont activées !", icon: "/favicon.svg" });
+                  } else {
+                    alert("Vous avez refusé l'autorisation pour les notifications.");
+                    setSettings({ ...settings, channels: { ...settings.channels, push: false } });
+                  }
+                } else {
+                  setSettings({ ...settings, channels: { ...settings.channels, push: false } });
+                }
+              }}
               style={{ marginRight: '0.75rem' }}
             />
             <span style={{ fontWeight: 'bold' }}>Navigateur (notification push)</span>
           </label>
           
-          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', opacity: 0.5 }}>
             <input 
               type="checkbox" 
               className="custom-checkbox"
-              checked={channels.email} 
-              onChange={(e) => setChannels({...channels, email: e.target.checked})}
+              checked={settings.channels.email} 
+              onChange={(e) => setSettings({...settings, channels: { ...settings.channels, email: e.target.checked }})}
               style={{ marginRight: '0.75rem' }}
+              disabled
             />
-            <span style={{ fontWeight: 'bold' }}>E-mail</span>
+            <span style={{ fontWeight: 'bold' }}>E-mail (bientôt)</span>
           </label>
           
-          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', opacity: 0.5 }}>
             <input 
               type="checkbox" 
               className="custom-checkbox"
-              checked={channels.sms} 
-              onChange={(e) => setChannels({...channels, sms: e.target.checked})}
+              checked={settings.channels.sms} 
+              onChange={(e) => setSettings({...settings, channels: { ...settings.channels, sms: e.target.checked }})}
               style={{ marginRight: '0.75rem' }}
+              disabled
             />
-            <span style={{ fontWeight: 'bold' }}>SMS</span>
+            <span style={{ fontWeight: 'bold' }}>SMS (bientôt)</span>
           </label>
           
-          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', opacity: 0.5 }}>
             <input 
               type="checkbox" 
               className="custom-checkbox"
-              checked={channels.whatsapp} 
-              onChange={(e) => setChannels({...channels, whatsapp: e.target.checked})}
+              checked={settings.channels.whatsapp} 
+              onChange={(e) => setSettings({...settings, channels: { ...settings.channels, whatsapp: e.target.checked }})}
               style={{ marginRight: '0.75rem' }}
+              disabled
             />
-            <span style={{ fontWeight: 'bold' }}>Whatsapp</span>
+            <span style={{ fontWeight: 'bold' }}>Whatsapp (bientôt)</span>
           </label>
         </div>
       </div>

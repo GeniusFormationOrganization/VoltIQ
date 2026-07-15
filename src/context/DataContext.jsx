@@ -30,10 +30,67 @@ export function DataProvider({ children }) {
     return localStorage.getItem('voltiq_onboarding_completed') === 'true';
   });
 
+  // Initialisation des paramètres de notification
+  const [settings, setSettings] = useState(() => {
+    const saved = localStorage.getItem('voltiq_settings');
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return {
+      reminders: { r7: false, r5: true, r3: true, r1: true },
+      channels: { push: false, email: false, sms: false, whatsapp: false }
+    };
+  });
+
   // Sauvegarder automatiquement les recharges dans le localStorage à chaque modification
   useEffect(() => {
     localStorage.setItem('voltiq_recharges', JSON.stringify(recharges));
   }, [recharges]);
+
+  // Sauvegarder les paramètres
+  useEffect(() => {
+    localStorage.setItem('voltiq_settings', JSON.stringify(settings));
+  }, [settings]);
+
+  // Logique d'envoi de notification locale
+  useEffect(() => {
+    // Si on n'a pas de recharge courante, ou pas de date d'épuisement, ou pas de permission push, on arrête
+    if (!currentRecharge || !currentRecharge.depletionDate || !settings.channels.push) return;
+    
+    // Vérifier la permission du navigateur
+    if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+
+    const today = new Date();
+    const diffTime = currentRecharge.depletionDate.getTime() - today.getTime();
+    const daysRemaining = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+
+    // Seuils dans l'ordre croissant pour trouver le premier seuil franchi
+    const thresholds = [1, 3, 5, 7];
+    let thresholdToTrigger = null;
+    
+    for (let t of thresholds) {
+      if (daysRemaining <= t && settings.reminders[`r${t}`]) {
+        thresholdToTrigger = t;
+        break;
+      }
+    }
+
+    if (thresholdToTrigger !== null) {
+      const notificationKey = `notified_${currentRecharge.id}_r${thresholdToTrigger}`;
+      const hasNotified = localStorage.getItem(notificationKey);
+
+      if (!hasNotified) {
+        // Déclencher la notification
+        new Notification("VoltIQ - Alerte", {
+          body: `Attention, il ne vous reste qu'environ ${daysRemaining} jour(s) d'autonomie estimée.`,
+          icon: '/favicon.svg'
+        });
+        // Enregistrer qu'on l'a envoyée pour cette recharge et ce seuil
+        localStorage.setItem(notificationKey, 'true');
+      }
+    }
+  }, [currentRecharge, settings]);
+
 
   /**
    * Ajoute une nouvelle recharge et calcule l'estimation de consommation.
@@ -117,7 +174,9 @@ export function DataProvider({ children }) {
       clearRecharges, 
       currentRecharge, 
       hasCompletedOnboarding, 
-      completeOnboarding
+      completeOnboarding,
+      settings,
+      setSettings
     }}>
       {children}
     </DataContext.Provider>
