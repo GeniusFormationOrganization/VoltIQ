@@ -5,6 +5,12 @@ import { calculateAverageConsumption, calculateEstimatedDuration, calculateDeple
 const DataContext = createContext();
 
 export function DataProvider({ children }) {
+  // Quelques données de démonstration pour peupler l'historique au premier lancement
+  const initialData = [
+    { id: 1, amount: 2000, energy: 23.5, date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), depletionDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), averageConsumption: 1.5, previousDaysLeft: 0 },
+    { id: 2, amount: 5000, energy: 58.8, date: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000), depletionDate: new Date(Date.now() - 16 * 24 * 60 * 60 * 1000), averageConsumption: 1.8, previousDaysLeft: 0 },
+  ];
+
   // Initialisation de l'état des recharges depuis le localStorage
   const [recharges, setRecharges] = useState(() => {
     try {
@@ -22,7 +28,7 @@ export function DataProvider({ children }) {
     } catch (e) {
       console.error("Erreur de parsing des données locales", e);
     }
-    return [];
+    return initialData;
   });
 
   // Vérifier si l'utilisateur a déjà terminé le tutoriel d'accueil (Onboarding)
