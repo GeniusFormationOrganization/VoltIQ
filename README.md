@@ -11,9 +11,9 @@
 </div>
 
 ---
-
+<div align="center">
 ## 🌟 Aperçu du Design
-
+<div align="center">
 L'interface de VoltIQ a été pensée pour être claire, moderne et parfaitement adaptée aux mobiles.
 
 <div align="center">

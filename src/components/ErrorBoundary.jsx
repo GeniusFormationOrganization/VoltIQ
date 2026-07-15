@@ -1,21 +1,29 @@
 import React from 'react';
 
+/**
+ * Composant de type "Frontière d'erreur" (Error Boundary).
+ * Il capture les erreurs JavaScript qui se produisent dans ses composants enfants
+ * et affiche une interface de secours au lieu de faire planter toute l'application.
+ */
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null };
   }
 
+  // Met à jour l'état pour afficher l'interface de secours au prochain rendu
   static getDerivedStateFromError(error) {
     return { hasError: true, error };
   }
 
+  // Permet de capturer l'erreur pour pouvoir l'envoyer à un service de reporting si besoin
   componentDidCatch(error, errorInfo) {
-    console.error("ErrorBoundary caught an error", error, errorInfo);
+    console.error("ErrorBoundary a capturé une erreur :", error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
+      // Affichage de secours en cas d'erreur
       return (
         <div className="app-container" style={{ alignItems: 'center', justifyContent: 'center' }}>
           <div className="card" style={{ maxWidth: '400px', textAlign: 'center' }}>
@@ -34,6 +42,7 @@ class ErrorBoundary extends React.Component {
       );
     }
 
+    // Si tout va bien, on affiche les enfants normalement
     return this.props.children;
   }
 }
