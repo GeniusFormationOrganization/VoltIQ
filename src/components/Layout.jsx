@@ -20,7 +20,9 @@ export default function Layout() {
       
       {/* Contenu principal de la page courante (Dashboard, Historique, etc.) */}
       <main className="main-content">
-        <Outlet />
+        <div key={location.pathname} className="page-transition">
+          <Outlet />
+        </div>
       </main>
 
       {/* Barre de navigation collée en bas de l'écran */}

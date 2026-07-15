@@ -71,13 +71,15 @@ p {
   font-size: 1rem;
   cursor: pointer;
   border: none;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   text-decoration: none;
   width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .btn:active {
-  transform: scale(0.98);
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .btn-primary {
@@ -87,6 +89,8 @@ p {
 
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
 }
 
 .btn-secondary {
@@ -208,6 +212,12 @@ p {
   box-shadow: var(--shadow-card);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 /* Bottom Navigation */
@@ -265,4 +275,20 @@ p {
 /* Hide sidebar completely on all screens as this is a mobile app UI */
 .sidebar {
   display: none;
+}
+
+/* Page Transition Animation */
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: pageEnter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
