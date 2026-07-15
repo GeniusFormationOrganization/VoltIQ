@@ -11,15 +11,15 @@
 </div>
 
 ---
-<div align="center">
+
 ## 🌟 Aperçu du Design
-<div align="center">
+
 L'interface de VoltIQ a été pensée pour être claire, moderne et parfaitement adaptée aux mobiles.
 
 <div align="center">
-  <img src="src/assets/tableau%20de%20bord.png" alt="Tableau de bord" width="250" style="margin: 10px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
-  <img src="src/assets/historique.png" alt="Historique" width="250" style="margin: 10px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
-  <img src="src/assets/rappels.png" alt="Rappels" width="250" style="margin: 10px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+  <img src="docs/images/tableau%20de%20bord.png" alt="Tableau de bord" width="250" style="margin: 10px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+  <img src="docs/images/historique.png" alt="Historique" width="250" style="margin: 10px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+  <img src="docs/images/rappels.png" alt="Rappels" width="250" style="margin: 10px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
 </div>
 
 ## ✨ Fonctionnalités Clés
@@ -55,7 +55,7 @@ Cette application a été construite pour être rapide et fiable. Elle repose su
    npm run dev
    ```
 
-L'application sera accessible sur `http://localhost:5173`. Ouvrez ce lien sur votre navigateur (de préférence en simulant une vue mobile depuis les outils de développement pour la meilleure expérience).
+L'application sera accessible sur `https://voltiq-beta.vercel.app/`. Ouvrez ce lien sur votre navigateur (de préférence en simulant une vue mobile depuis les outils de développement pour la meilleure expérience).
 
 ## 🌍 Déploiement
 
@@ -63,5 +63,5 @@ Ce projet est prêt à être hébergé sur **Vercel**, **Netlify**, ou **GitHub 
 
 ---
 <div align="center">
-  <p>Conçu avec ❤️ pour une gestion énergétique intelligente.</p>
+  <p>Conçu avec ❤️ par viso studio.</p>
 </div>
