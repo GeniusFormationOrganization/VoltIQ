@@ -14,27 +14,28 @@ export default function Dashboard() {
   // --- Calcul des jours restants et de la barre de progression ---
   let daysRemaining = 0;
   let isAlert = false;
-  let percentRemaining = 0;
-  
+
   if (currentRecharge && currentRecharge.depletionDate) {
     const today = new Date();
     // Différence entre la date estimée de fin et aujourd'hui
     const diffTime = currentRecharge.depletionDate.getTime() - today.getTime();
     daysRemaining = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
-    
+
     // Déclenche une alerte s'il reste 3 jours ou moins
     if (daysRemaining <= 3) isAlert = true;
-    
-    // Calcul du pourcentage restant pour la barre (entre 0 et 1)
-    if (currentRecharge.estimatedDuration) {
-      percentRemaining = Math.max(0, Math.min(1, daysRemaining / currentRecharge.estimatedDuration));
-    } else {
-      percentRemaining = daysRemaining > 0 ? 1 : 0;
-    }
   }
 
   // --- Configuration de la barre de progression (7 segments) ---
-  const litSegments = Math.max(0, Math.min(7, Math.ceil(percentRemaining * 7)));
+  let litSegments = 0;
+  if (daysRemaining > 0) {
+    if (daysRemaining <= 2) litSegments = 1;
+    else if (daysRemaining <= 5) litSegments = 2;
+    else if (daysRemaining <= 9) litSegments = 3;
+    else if (daysRemaining <= 14) litSegments = 4;
+    else if (daysRemaining <= 20) litSegments = 5;
+    else if (daysRemaining <= 27) litSegments = 6;
+    else litSegments = 7;
+  }
   // Couleurs allant du rouge (vide) au vert (plein)
   const progressColors = ['#FF0000', '#FF8C00', '#FFD700', '#CCFF00', '#10B981', '#10B981', '#10B981'];
 
@@ -51,7 +52,7 @@ export default function Dashboard() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', paddingBottom: '2rem' }}>
-      
+
       {/* Bannière d'alerte rouge si le crédit est presque épuisé */}
       {isAlert && (
         <div className="card" style={{ backgroundColor: 'var(--color-warning)', color: 'white', display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -65,15 +66,15 @@ export default function Dashboard() {
 
       {/* Carte affichant la durée de vie restante (Barre de batterie) */}
       <div className="card">
-        <h2 style={{ fontSize: '1rem', marginBottom: '1rem', fontWeight: 'bold' }}>Carte restante</h2>
+        <h2 style={{ fontSize: '1rem', marginBottom: '1rem', fontWeight: 'bold' }}>Autonomie estimée</h2>
         <div style={{ display: 'flex', gap: '4px', height: '24px', marginBottom: '0.5rem' }}>
           {Array.from({ length: 7 }).map((_, i) => (
-            <div 
-              key={i} 
-              style={{ 
-                flex: 1, 
-                backgroundColor: i < litSegments ? progressColors[i] : '#E5E7EB', 
-                borderRadius: '4px' 
+            <div
+              key={i}
+              style={{
+                flex: 1,
+                backgroundColor: i < litSegments ? progressColors[i] : '#E5E7EB',
+                borderRadius: '4px'
               }}
             ></div>
           ))}
@@ -99,7 +100,7 @@ export default function Dashboard() {
         <div style={{ color: 'var(--color-primary)', fontSize: '1.75rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>
           {currentRecharge?.amount || 0} FCFA
         </div>
-        
+
         {/* Bouton pour ajouter une nouvelle recharge (redirige vers /new) */}
         <Link to="/new" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%' }}>
           <PlusCircle size={20} /> Nouvelle Recharge
