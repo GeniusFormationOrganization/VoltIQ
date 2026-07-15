@@ -99,10 +99,23 @@ export function DataProvider({ children }) {
 
       if (!hasNotified) {
         // Déclencher la notification
-        new Notification("VoltIQ - Alerte", {
+        const title = "VoltIQ - Alerte";
+        const options = {
           body: `Attention, il ne vous reste qu'environ ${daysRemaining} jour(s) d'autonomie estimée.`,
           icon: '/favicon.svg'
-        });
+        };
+
+        try {
+          // Sur mobile (PWA), le constructeur standard peut déclencher une erreur
+          new Notification(title, options);
+        } catch (e) {
+          // Fallback pour les PWA (notamment Android)
+          if (navigator.serviceWorker) {
+            navigator.serviceWorker.ready.then(registration => {
+              registration.showNotification(title, options);
+            });
+          }
+        }
         // Enregistrer qu'on l'a envoyée pour cette recharge et ce seuil
         localStorage.setItem(notificationKey, 'true');
       }
