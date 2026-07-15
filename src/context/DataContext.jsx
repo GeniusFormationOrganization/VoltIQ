@@ -3,48 +3,35 @@ import { calculateAverageConsumption, calculateEstimatedDuration, calculateDeple
 
 const DataContext = createContext();
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://voltiq-v9lf.onrender.com/api';
-
 export function DataProvider({ children }) {
-  const [recharges, setRecharges] = useState([]);
-  
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('voltiq_authenticated') === 'true';
+  // Initialize state from localStorage
+  const [recharges, setRecharges] = useState(() => {
+    const saved = localStorage.getItem('voltiq_recharges');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Convert string dates back to Date objects
+        return parsed.map(r => ({
+          ...r,
+          date: new Date(r.date),
+          depletionDate: r.depletionDate ? new Date(r.depletionDate) : null
+        }));
+      } catch (e) {
+        console.error("Erreur de parsing des données locales", e);
+        return [];
+      }
+    }
+    return [];
   });
 
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(() => {
     return localStorage.getItem('voltiq_onboarding_completed') === 'true';
   });
 
-  const login = () => {
-    setIsAuthenticated(true);
-    localStorage.setItem('voltiq_authenticated', 'true');
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem('voltiq_authenticated');
-  };
-
-  // Fetch recharges from backend
+  // Save to localStorage whenever recharges changes
   useEffect(() => {
-    if (isAuthenticated) {
-      fetch(`${API_URL}/recharges`)
-        .then(res => res.json())
-        .then(data => {
-          if (Array.isArray(data)) {
-            // Convert string dates to Date objects
-            const parsedData = data.map(r => ({
-              ...r,
-              date: new Date(r.date),
-              depletionDate: r.depletionDate ? new Date(r.depletionDate) : null
-            }));
-            setRecharges(parsedData);
-          }
-        })
-        .catch(err => console.error("Erreur chargement recharges:", err));
-    }
-  }, [isAuthenticated]);
+    localStorage.setItem('voltiq_recharges', JSON.stringify(recharges));
+  }, [recharges]);
 
   const addRecharge = async (amount, energy, date, remainingEnergy = 0) => {
     let previousRecharge = recharges.length > 0 ? recharges[0] : null;
@@ -67,50 +54,33 @@ export function DataProvider({ children }) {
     const depletionDate = estimatedDuration > 0 ? calculateDepletionDate(date, estimatedDuration) : null;
 
     const newRecharge = {
+      id: Date.now().toString(), // Generate a local ID
       amount,
       energy,
       remainingEnergy,
       totalEnergy,
-      date: date.toISOString(),
+      date, // Keep as Date object in state
       averageConsumption,
       estimatedDuration,
-      depletionDate: depletionDate ? depletionDate.toISOString() : null,
+      depletionDate,
       actualDuration
     };
 
-    try {
-      const response = await fetch(`${API_URL}/recharges`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newRecharge)
-      });
-      if (response.ok) {
-        const savedRecharge = await response.json();
-        const parsedRecharge = {
-          ...savedRecharge,
-          date: new Date(savedRecharge.date),
-          depletionDate: savedRecharge.depletionDate ? new Date(savedRecharge.depletionDate) : null
-        };
-        
-        // Mettre à jour la durée de la précédente si nécessaire
-        let newRechargesList = [parsedRecharge, ...recharges];
-        if (previousRecharge && actualDuration !== null) {
-          newRechargesList[1] = { ...newRechargesList[1], actualDuration };
-        }
-        setRecharges(newRechargesList);
-        return parsedRecharge;
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'ajout de la recharge:", error);
+    let newRechargesList = [newRecharge, ...recharges];
+    if (previousRecharge && actualDuration !== null) {
+      newRechargesList[1] = { ...newRechargesList[1], actualDuration };
     }
-    return null;
+    setRecharges(newRechargesList);
+    
+    return newRecharge;
   };
 
   const clearRecharges = () => {
     setRecharges([]);
+    localStorage.removeItem('voltiq_recharges');
+    
     setHasCompletedOnboarding(false);
     localStorage.removeItem('voltiq_onboarding_completed');
-    logout();
   };
 
   const completeOnboarding = () => {
@@ -127,10 +97,7 @@ export function DataProvider({ children }) {
       clearRecharges, 
       currentRecharge, 
       hasCompletedOnboarding, 
-      completeOnboarding,
-      isAuthenticated,
-      login,
-      logout
+      completeOnboarding
     }}>
       {children}
     </DataContext.Provider>
