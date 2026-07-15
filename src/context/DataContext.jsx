@@ -7,20 +7,20 @@ const DataContext = createContext();
 export function DataProvider({ children }) {
   // Initialisation de l'état des recharges depuis le localStorage
   const [recharges, setRecharges] = useState(() => {
-    const saved = localStorage.getItem('voltiq_recharges');
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem('voltiq_recharges');
+      if (saved) {
         const parsed = JSON.parse(saved);
-        // Reconvertir les chaînes de caractères de dates en objets Date
-        return parsed.map(r => ({
-          ...r,
-          date: new Date(r.date),
-          depletionDate: r.depletionDate ? new Date(r.depletionDate) : null
-        }));
-      } catch (e) {
-        console.error("Erreur de parsing des données locales", e);
-        return [];
+        if (Array.isArray(parsed)) {
+          return parsed.map(r => ({
+            ...r,
+            date: new Date(r.date),
+            depletionDate: r.depletionDate ? new Date(r.depletionDate) : null
+          }));
+        }
       }
+    } catch (e) {
+      console.error("Erreur de parsing des données locales", e);
     }
     return [];
   });

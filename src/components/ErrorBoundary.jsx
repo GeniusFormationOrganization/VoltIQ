@@ -31,6 +31,9 @@ class ErrorBoundary extends React.Component {
             <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.5rem' }}>
               Nous sommes désolés, mais quelque chose s'est mal passé.
             </p>
+            <div style={{ backgroundColor: '#fee2e2', color: '#b91c1c', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.9rem', textAlign: 'left', overflowX: 'auto' }}>
+              <strong>Erreur :</strong> {this.state.error && this.state.error.toString()}
+            </div>
             <button 
               className="btn btn-primary"
               onClick={() => window.location.reload()}
