@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Download } from 'lucide-react';
 
 /**
  * Composant Paramètres/Rappels (Settings).
@@ -119,6 +119,37 @@ export default function Settings() {
             <span style={{ fontWeight: 'bold' }}>Whatsapp (bientôt)</span>
           </label>
         </div>
+      </div>
+
+      {/* Section : Application (Installation) */}
+      <div className="card" style={{ marginBottom: '1rem' }}>
+        <h2 style={{ marginBottom: '0.5rem', fontSize: '1.25rem', fontWeight: 'bold' }}>Application VoltIQ</h2>
+        <p style={{ color: 'var(--color-text-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+          Installez VoltIQ sur votre téléphone pour y accéder plus rapidement et recevoir les alertes.
+        </p>
+        
+        <button 
+          className="btn btn-primary" 
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%' }}
+          onClick={() => {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && 'ontouchend' in document);
+            if (isIOS) {
+              alert("Pour installer VoltIQ sur votre iPhone/iPad :\n\n1. Appuyez sur l'icône 'Partager' (le carré avec la flèche vers le haut) en bas de l'écran.\n2. Descendez et appuyez sur 'Sur l'écran d'accueil'.");
+              return;
+            }
+            if (window.deferredPrompt) {
+              window.deferredPrompt.prompt();
+              window.deferredPrompt.userChoice.then((choiceResult) => {
+                window.deferredPrompt = null;
+              });
+            } else {
+              alert("Pour installer VoltIQ sur votre appareil Android :\n\nOuvrez les options de votre navigateur (les 3 petits points) et choisissez 'Installer l'application' ou 'Ajouter à l'écran d'accueil'.");
+            }
+          }}
+        >
+          <Download size={20} />
+          Télécharger l'application
+        </button>
       </div>
 
       {/* Section : Effacer les données (Danger Zone) */}
