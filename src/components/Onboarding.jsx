@@ -36,7 +36,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', backgroundColor: '#F9FAFB' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', backgroundColor: 'var(--color-bg-main)' }}>
       
       {/* Header / Logo */}
       <div style={{ padding: '2rem 1rem 1rem 1rem', width: '100%', textAlign: 'center' }}>

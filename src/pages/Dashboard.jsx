@@ -52,7 +52,7 @@ export default function Dashboard() {
 
       {/* Durée restante Card */}
       <div className="card">
-        <h2 style={{ fontSize: '1rem', marginBottom: '1rem', fontWeight: 'bold' }}>Durée restante</h2>
+        <h2 style={{ fontSize: '1rem', marginBottom: '1rem', fontWeight: 'bold' }}>Carte restante</h2>
         <div style={{ display: 'flex', gap: '4px', height: '24px', marginBottom: '0.5rem' }}>
           {Array.from({ length: 7 }).map((_, i) => (
             <div 
@@ -73,9 +73,9 @@ export default function Dashboard() {
       {/* Consommation moyenne Card */}
       <div className="card">
         <h2 style={{ fontSize: '1rem', marginBottom: '1rem', fontWeight: 'bold' }}>Consommation moyenne</h2>
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '80px', paddingTop: '10px', borderLeft: '1px solid #9CA3AF', borderBottom: '1px solid #9CA3AF', paddingLeft: '2px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4px', height: '100px', paddingTop: '10px' }}>
           {chartHeights.map((height, i) => (
-            <div key={i} style={{ flex: 1, height: `${height}%`, backgroundColor: 'var(--color-primary)', borderRadius: '2px 2px 0 0' }}></div>
+            <div key={i} style={{ flex: 1, height: `${height}%`, backgroundColor: 'var(--color-primary)', borderRadius: '4px 4px 0 0' }}></div>
           ))}
         </div>
       </div>
@@ -83,15 +83,15 @@ export default function Dashboard() {
       {/* Dernière recharge Card */}
       <div className="card">
         <h2 style={{ fontSize: '1rem', marginBottom: '1rem', fontWeight: 'bold' }}>Dernière recharge</h2>
-        <div style={{ color: 'var(--color-primary)', fontSize: '1.75rem', fontWeight: 'bold' }}>
+        <div style={{ color: 'var(--color-primary)', fontSize: '1.75rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>
           {currentRecharge?.amount || 0} FCFA
         </div>
+        
+        {/* Nouvelle Recharge Button */}
+        <Link to="/new" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%' }}>
+          <PlusCircle size={20} /> Nouvelle Recharge
+        </Link>
       </div>
-      
-      {/* Nouvelle Recharge Button */}
-      <Link to="/new" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1.25rem', fontSize: '1.2rem', fontWeight: 'bold' }}>
-        <PlusCircle size={24} /> Nouvelle Recharge
-      </Link>
     </div>
   );
 }
