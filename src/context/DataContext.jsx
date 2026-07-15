@@ -32,14 +32,23 @@ export function DataProvider({ children }) {
 
   // Initialisation des paramètres de notification
   const [settings, setSettings] = useState(() => {
-    const saved = localStorage.getItem('voltiq_settings');
-    if (saved) {
-      return JSON.parse(saved);
-    }
-    return {
+    const defaultSettings = {
       reminders: { r7: false, r5: true, r3: true, r1: true },
       channels: { push: false, email: false, sms: false, whatsapp: false }
     };
+    try {
+      const saved = localStorage.getItem('voltiq_settings');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          reminders: { ...defaultSettings.reminders, ...(parsed?.reminders || {}) },
+          channels: { ...defaultSettings.channels, ...(parsed?.channels || {}) }
+        };
+      }
+    } catch (e) {
+      console.error("Erreur de parsing des paramètres", e);
+    }
+    return defaultSettings;
   });
 
   // Sauvegarder automatiquement les recharges dans le localStorage à chaque modification
@@ -55,7 +64,7 @@ export function DataProvider({ children }) {
   // Logique d'envoi de notification locale
   useEffect(() => {
     // Si on n'a pas de recharge courante, ou pas de date d'épuisement, ou pas de permission push, on arrête
-    if (!currentRecharge || !currentRecharge.depletionDate || !settings.channels.push) return;
+    if (!currentRecharge || !currentRecharge.depletionDate || !settings?.channels?.push) return;
     
     // Vérifier la permission du navigateur
     if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;

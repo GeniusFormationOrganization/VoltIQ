@@ -30,11 +30,11 @@ export default function Settings() {
               <input 
                 type="checkbox" 
                 className="custom-checkbox"
-                checked={settings.reminders[setting.id]} 
+                checked={settings?.reminders?.[setting.id] || false} 
                 onChange={(e) => setSettings({
                   ...settings,
                   reminders: {
-                    ...settings.reminders,
+                    ...(settings?.reminders || {}),
                     [setting.id]: e.target.checked
                   }
                 })}
@@ -58,7 +58,7 @@ export default function Settings() {
             <input 
               type="checkbox" 
               className="custom-checkbox"
-              checked={settings.channels.push} 
+              checked={settings?.channels?.push || false} 
               onChange={async (e) => {
                 const checked = e.target.checked;
                 if (checked) {
@@ -68,14 +68,14 @@ export default function Settings() {
                   }
                   const permission = await Notification.requestPermission();
                   if (permission === "granted") {
-                    setSettings({ ...settings, channels: { ...settings.channels, push: true } });
+                    setSettings({ ...settings, channels: { ...(settings?.channels || {}), push: true } });
                     new Notification("VoltIQ", { body: "Les notifications sont activées !", icon: "/favicon.svg" });
                   } else {
                     alert("Vous avez refusé l'autorisation pour les notifications.");
-                    setSettings({ ...settings, channels: { ...settings.channels, push: false } });
+                    setSettings({ ...settings, channels: { ...(settings?.channels || {}), push: false } });
                   }
                 } else {
-                  setSettings({ ...settings, channels: { ...settings.channels, push: false } });
+                  setSettings({ ...settings, channels: { ...(settings?.channels || {}), push: false } });
                 }
               }}
               style={{ marginRight: '0.75rem' }}
@@ -87,8 +87,8 @@ export default function Settings() {
             <input 
               type="checkbox" 
               className="custom-checkbox"
-              checked={settings.channels.email} 
-              onChange={(e) => setSettings({...settings, channels: { ...settings.channels, email: e.target.checked }})}
+              checked={settings?.channels?.email || false} 
+              onChange={(e) => setSettings({...settings, channels: { ...(settings?.channels || {}), email: e.target.checked }})}
               style={{ marginRight: '0.75rem' }}
               disabled
             />
@@ -99,8 +99,8 @@ export default function Settings() {
             <input 
               type="checkbox" 
               className="custom-checkbox"
-              checked={settings.channels.sms} 
-              onChange={(e) => setSettings({...settings, channels: { ...settings.channels, sms: e.target.checked }})}
+              checked={settings?.channels?.sms || false} 
+              onChange={(e) => setSettings({...settings, channels: { ...(settings?.channels || {}), sms: e.target.checked }})}
               style={{ marginRight: '0.75rem' }}
               disabled
             />
@@ -111,8 +111,8 @@ export default function Settings() {
             <input 
               type="checkbox" 
               className="custom-checkbox"
-              checked={settings.channels.whatsapp} 
-              onChange={(e) => setSettings({...settings, channels: { ...settings.channels, whatsapp: e.target.checked }})}
+              checked={settings?.channels?.whatsapp || false} 
+              onChange={(e) => setSettings({...settings, channels: { ...(settings?.channels || {}), whatsapp: e.target.checked }})}
               style={{ marginRight: '0.75rem' }}
               disabled
             />
