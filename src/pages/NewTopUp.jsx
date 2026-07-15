@@ -64,6 +64,17 @@ export default function NewTopUp() {
           </p>
 
           <div className="input-group">
+            <label>Reste sur le compteur (kWh) <span style={{color: 'var(--color-text-muted)', fontWeight: 'normal', fontSize: '0.8rem'}}>- Optionnel</span></label>
+            <input 
+              type="number" 
+              step="0.1" 
+              value={remainingEnergy} 
+              onChange={e => setRemainingEnergy(e.target.value)} 
+              placeholder="Ex: 24"
+            />
+          </div>
+
+          <div className="input-group">
             <label>Montant payé (FCFA)</label>
             <input 
               type="number" 
@@ -87,17 +98,6 @@ export default function NewTopUp() {
           </div>
 
           <div className="input-group">
-            <label>Reste sur le compteur (kWh) <span style={{color: 'var(--color-text-muted)', fontWeight: 'normal', fontSize: '0.8rem'}}>- Optionnel</span></label>
-            <input 
-              type="number" 
-              step="0.1" 
-              value={remainingEnergy} 
-              onChange={e => setRemainingEnergy(e.target.value)} 
-              placeholder="Ex: 24"
-            />
-          </div>
-
-          <div className="input-group">
             <label>Date de la recharge</label>
             <input 
               type="date" 
@@ -108,7 +108,7 @@ export default function NewTopUp() {
           </div>
 
           <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
-            {recharges.length === 0 ? 'Enregistrer la référence' : 'Calculer l\'estimation'}
+            Enregistrer
           </button>
         </form>
       ) : (
