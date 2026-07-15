@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, History, Bell } from 'lucide-react';
-import { motion } from 'framer-motion';
 import logoUrl from '../assets/logo voltiq.svg';
 
 /**
@@ -33,13 +32,7 @@ export default function Layout() {
           to="/" 
           className={`bottom-nav-item ${location.pathname === '/' ? 'active' : ''}`}
         >
-          <motion.div
-            whileTap={{ scale: 0.8 }}
-            animate={location.pathname === '/' ? { y: -2, scale: 1.1 } : { y: 0, scale: 1 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-          >
-            <LayoutDashboard size={24} />
-          </motion.div>
+          <LayoutDashboard size={24} />
           <span>Tableau de bord</span>
         </Link>
 
@@ -48,13 +41,7 @@ export default function Layout() {
           to="/history" 
           className={`bottom-nav-item ${location.pathname === '/history' ? 'active' : ''}`}
         >
-          <motion.div
-            whileTap={{ scale: 0.8 }}
-            animate={location.pathname === '/history' ? { y: -2, scale: 1.1 } : { y: 0, scale: 1 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-          >
-            <History size={24} />
-          </motion.div>
+          <History size={24} />
           <span>Historique</span>
         </Link>
 
@@ -63,13 +50,7 @@ export default function Layout() {
           to="/settings" 
           className={`bottom-nav-item ${location.pathname === '/settings' ? 'active' : ''}`}
         >
-          <motion.div
-            whileTap={{ scale: 0.8, rotate: -15 }}
-            animate={location.pathname === '/settings' ? { y: -2, scale: 1.1, rotate: [0, -10, 10, -10, 10, 0] } : { y: 0, scale: 1, rotate: 0 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-          >
-            <Bell size={24} />
-          </motion.div>
+          <Bell size={24} />
           <span>Rappels</span>
         </Link>
       </nav>
