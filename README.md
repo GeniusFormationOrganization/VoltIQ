@@ -1,16 +1,67 @@
-# React + Vite
+<div align="center">
+  <img src="src/assets/logo%20voltiq.svg" alt="VoltIQ Logo" width="200" />
+  
+  # VoltIQ - Maîtrisez votre énergie ⚡
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+  **VoltIQ** est une application mobile-first élégante et 100% autonome conçue pour vous aider à comprendre, suivre et optimiser la consommation de votre compteur prépayé, jour après jour.
 
-Currently, two official plugins are available:
+  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+  [![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
+  [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/fr/docs/Web/CSS)
+</div>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🌟 Aperçu du Design
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+L'interface de VoltIQ a été pensée pour être claire, moderne et parfaitement adaptée aux mobiles.
 
-## Expanding the Oxlint configuration
+<div align="center">
+  <img src="src/assets/tableau%20de%20bord.png" alt="Tableau de bord" width="250" style="margin: 10px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+  <img src="src/assets/historique.png" alt="Historique" width="250" style="margin: 10px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+  <img src="src/assets/rappels.png" alt="Rappels" width="250" style="margin: 10px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" />
+</div>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## ✨ Fonctionnalités Clés
+
+- 🔋 **Suivi en temps réel** : Visualisez instantanément l'énergie restante et l'estimation de sa durée.
+- 📊 **Analyse de consommation** : Un graphique interactif vous permet de suivre votre consommation moyenne au fil du temps.
+- 📖 **Historique complet** : Retrouvez la liste complète de toutes vos recharges avec les montants (FCFA) et l'énergie ajoutée.
+- 🔔 **Rappels personnalisables** : Configurez des alertes (7 jours, 5 jours, etc.) pour ne plus jamais être coupé par surprise.
+- 🚀 **100% Local & Hors-ligne** : Vos données vous appartiennent. L'application stocke tout directement dans votre navigateur. Aucun backend ni base de données ne ralentit l'application !
+
+## 🛠️ Architecture Technique
+
+Cette application a été construite pour être rapide et fiable. Elle repose sur :
+- **React.js** (via Vite) pour une navigation fluide et instantanée (Single Page Application).
+- **Vanilla CSS** pour un design sur mesure parfait, des animations fluides et des variables de thème robustes.
+- **LocalStorage API** en tant que base de données, permettant un fonctionnement hors-ligne total.
+
+## 🚀 Installation & Lancement en local
+
+1. **Cloner le projet**
+   ```bash
+   git clone https://github.com/VOTRE_PSEUDO/VoltIQ.git
+   cd VoltIQ
+   ```
+
+2. **Installer les dépendances**
+   ```bash
+   npm install
+   ```
+
+3. **Lancer le serveur de développement**
+   ```bash
+   npm run dev
+   ```
+
+L'application sera accessible sur `http://localhost:5173`. Ouvrez ce lien sur votre navigateur (de préférence en simulant une vue mobile depuis les outils de développement pour la meilleure expérience).
+
+## 🌍 Déploiement
+
+Ce projet est prêt à être hébergé sur **Vercel**, **Netlify**, ou **GitHub Pages**. Il s'agit d'un site statique pur, ce qui signifie que vous pouvez l'importer directement depuis GitHub sur Vercel et le déployer en **un clic** sans aucune configuration supplémentaire !
+
+---
+<div align="center">
+  <p>Conçu avec ❤️ pour une gestion énergétique intelligente.</p>
+</div>
